@@ -8,9 +8,14 @@ public class ControlaInimigo : MonoBehaviour {
     public float Velocidade = 5;
     private MovimentoPersonagem movimentoInimigo;
     private Animacoes Animacao; 
+    private float aleatoria = 0;
+    private Vector3 direcao;
+    public Vector3 posicaoAleatoria;
+    private float contadorTime;
+    private float tempoEntrePosicaoAleatoria = 4;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         Jogador = GameObject.FindWithTag("Jogador");
         Animacao = GetComponent<Animacoes>();
         movimentoInimigo = GetComponent<MovimentoPersonagem>();
@@ -28,14 +33,20 @@ public class ControlaInimigo : MonoBehaviour {
     {
         float distancia = Vector3.Distance(transform.position, Jogador.transform.position);
 
-        Vector3 direcao = Jogador.transform.position - transform.position;
+
 
         movimentoInimigo.rotacionar(direcao);
 
-        if (distancia > 2.5)
+
+        if (distancia > 15)
+        {
+            Vagar();
+        }
+        else if (distancia > 2.5)
         {
 
             movimentoInimigo.movimentar(direcao, Velocidade);
+            direcao = Jogador.transform.position - transform.position;
             /*rigidbodyInimigo.MovePosition(
                 rigidbodyInimigo.position +
                 direcao.normalized * Velocidade * Time.deltaTime);*/
@@ -48,6 +59,30 @@ public class ControlaInimigo : MonoBehaviour {
         }
     }
 
+    void Vagar()
+    {
+        contadorTime -= Time.deltaTime;
+        if (contadorTime < 0)
+        {
+            posicaoAleatoria = PosicaoQualquer();
+            contadorTime = tempoEntrePosicaoAleatoria;
+        }
+        
+        direcao = posicaoAleatoria - transform.position;
+        movimentoInimigo.movimentar(direcao, Velocidade);
+    }
+
+
+    Vector3 PosicaoQualquer() 
+    {
+        Vector3 posicao = Random.insideUnitSphere * 30;
+           //Esse insideUnitSphere cria uma esfera, pega uma posição dentro dessa esfera e faz com que o objeto vá para essa posição 
+        posicao += transform.position;      
+            //Colocando essa esfera na posicao do jogador 
+        posicao.y = transform.position.y;
+            // Mas como é uma esfera temos que cancelar a posição que ele pode ir do eixo y
+        return posicao;
+    }
 
     void AtacaJogador()
     {
