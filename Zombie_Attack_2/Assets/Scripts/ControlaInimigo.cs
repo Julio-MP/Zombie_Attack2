@@ -67,15 +67,22 @@ public class ControlaInimigo : MonoBehaviour {
             posicaoAleatoria = PosicaoQualquer();
             contadorTime = tempoEntrePosicaoAleatoria;
         }
+                                                                                    //Em jogos 3D é difícil realmente chegar até zero
+        bool ficouPerto = Vector3.Distance(transform.position, posicaoAleatoria) <= 0.05;
+        if (ficouPerto == false)
+        {
+            direcao = posicaoAleatoria - transform.position;
+            movimentoInimigo.movimentar(direcao, Velocidade);
+            Animacao.Movendo(true);
+        }
         
-        direcao = posicaoAleatoria - transform.position;
-        movimentoInimigo.movimentar(direcao, Velocidade);
+
     }
 
 
     Vector3 PosicaoQualquer() 
     {
-        Vector3 posicao = Random.insideUnitSphere * 30;
+        Vector3 posicao = Random.insideUnitSphere * 15;
            //Esse insideUnitSphere cria uma esfera, pega uma posição dentro dessa esfera e faz com que o objeto vá para essa posição 
         posicao += transform.position;      
             //Colocando essa esfera na posicao do jogador 
