@@ -36,6 +36,7 @@ public class ControlaInimigo : MonoBehaviour {
 
 
         movimentoInimigo.rotacionar(direcao);
+        Animacao.Movimentar(direcao.magnitude);
 
 
         if (distancia > 15)
@@ -73,7 +74,6 @@ public class ControlaInimigo : MonoBehaviour {
         {
             direcao = posicaoAleatoria - transform.position;
             movimentoInimigo.movimentar(direcao, Velocidade);
-            Animacao.Movendo(true);
         }
         
 
