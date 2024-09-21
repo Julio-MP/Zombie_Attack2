@@ -14,5 +14,7 @@ public class ControlaAudio : MonoBehaviour
         instancia = meuAudioSource;
 
     }
+    
+    
 }
 //Sistema Singleton

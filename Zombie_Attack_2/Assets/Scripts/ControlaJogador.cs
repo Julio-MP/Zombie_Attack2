@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class ControlaJogador : MonoBehaviour
 {
-
     public float Velocidade = 10;
     private Vector3 direcao;
     public LayerMask MascaraChao;
@@ -29,7 +28,6 @@ public class ControlaJogador : MonoBehaviour
 
     void Update()
     {
-
         float eixoX = Input.GetAxis("Horizontal");
         float eixoZ = Input.GetAxis("Vertical");
 
@@ -44,13 +42,7 @@ public class ControlaJogador : MonoBehaviour
             animatorJogador.SetBool("Movendo", false);
         }
 
-        if(vida <=0)
-        {
-            if(Input.GetButtonDown("Fire1"))
-            {
-                SceneManager.LoadScene("game");
-            }
-        }
+
     }
 
     void FixedUpdate()
@@ -58,8 +50,6 @@ public class ControlaJogador : MonoBehaviour
         JogadorMovimento.movimentar(direcao, Velocidade);
         
         JogadorMovimento.RotacionarJogador(MascaraChao);
-
-        
     }
 
     public void PerdeVida (int danoPerdido)
@@ -69,8 +59,7 @@ public class ControlaJogador : MonoBehaviour
         ControlaAudio.instancia.PlayOneShot(SomDeDano); 
         if (vida <= 0)
         {
-            Time.timeScale = 0;
-            TextoGameOver.SetActive(true);
+            scriptControlaInterface.GameOver();
         }
     }
 }
